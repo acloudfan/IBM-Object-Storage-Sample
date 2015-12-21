@@ -9,10 +9,13 @@ import org.openstack4j.model.common.Identifier;
 import org.openstack4j.model.common.Payload;
 import org.openstack4j.model.common.Payloads;
 import org.openstack4j.model.compute.ActionResponse;
+import org.openstack4j.model.storage.object.SwiftObject;
+import org.openstack4j.model.storage.object.options.ObjectLocation;
 import org.openstack4j.openstack.OSFactory;
 
 /**
  * @author acloudfan.com
+ * 
  * Utility object for carrying out CRUD on the openstack storage.
  */
 public class OpenstackStorage {
@@ -74,5 +77,10 @@ public class OpenstackStorage {
 	public String createObject(String container, String obj, InputStream stream){
 		Payload<InputStream> payload = Payloads.create(stream);
 		return os.objectStorage().objects().put(container, obj, payload);
+	}
+	
+	public SwiftObject getObject(String container, String obj){
+		ObjectLocation objLocation = ObjectLocation.create(container, obj);
+		return os.objectStorage().objects().get(objLocation);
 	}
 }
